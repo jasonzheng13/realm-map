@@ -5,10 +5,12 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import pool from "./config/database";
 import authRoutes from "./routes/auth";
+import waypointRoutes from './routes/waypoints';
 
 dotenv.config();
 
-const app = express();
+// Creates app
+const app = express();  
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -28,6 +30,7 @@ app.get("/api/health", (req: express.Request, res: express.Response) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use('/api/waypoints', waypointRoutes);
 
 // Socket.IO connection
 io.on("connection", (socket) => {
